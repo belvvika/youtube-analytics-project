@@ -15,8 +15,8 @@ class Video:
         except Exception:
             self.video_statistic = None
 
-        self.title =  video_statistic['items'][0]['snippet']['title']
-        self.view_count= video_statistic['items'][0]['statistics']['viewCount']
+        self.title = video_statistic['items'][0]['snippet']['title']
+        self.view_count = video_statistic['items'][0]['statistics']['viewCount']
         self.like_count = video_statistic['items'][0]['statistics']['likeCount']
         self.url = f'https://www.youtube.com/watch?v={video_id}'
 
