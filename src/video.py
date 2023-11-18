@@ -2,17 +2,24 @@ from googleapiclient.discovery import build
 import os
 from dotenv import load_dotenv
 
-
 class Video:
     load_dotenv()
-    API_KEY = os.getenv('YOUTUBE_API')
+    api_key = os.getenv('YOUTUBE_API')
     def __init__(self, video_id) -> None:
         self.video_id = video_id
-        video_statistic = self.get_service().videos().list(part='snippet,statistics,contentDetails,topicDetails', id=video_id).execute()
+        try:
+            video_statistic = self.get_service().videos().list(part='snippet,statistics,contentDetails,topicDetails', id=video_id).execute()
+            if not self.video_statistic["items"]:
+                self.video_statistic = None
+
+        except Exception:
+            self.video_statistic = None
+
         self.title =  video_statistic['items'][0]['snippet']['title']
         self.view_count= video_statistic['items'][0]['statistics']['viewCount']
         self.like_count = video_statistic['items'][0]['statistics']['likeCount']
         self.url = f'https://www.youtube.com/watch?v={video_id}'
+
 
     def __str__(self):
         return f'{self.title}'
